@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  ycast:
+    image: ycast
+    build: .
+    ports:
+            - "${EXT_PORT}:${YC_PORT}"
+    environment:
+            - "YC_PORT=${YC_PORT}"
+            - "YC_DEBUG=${YC_DEBUG}"
+    volumes:
+            - "./:/srv/"
+            - "./${BOOKMARKS}:/srv/ycast/stations.yml:ro"
+    user: "${LOCAL_USER_ID}"
+    entrypoint:
+            - "/srv/entrypoint.sh"
+    restart: unless-stopped
